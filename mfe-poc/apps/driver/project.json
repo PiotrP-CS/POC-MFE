@@ -1,0 +1,98 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/driver/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/driver",
+        "index": "apps/driver/src/index.html",
+        "baseHref": "/",
+        "main": "apps/driver/src/main.ts",
+        "polyfills": "apps/driver/src/polyfills.ts",
+        "tsConfig": "apps/driver/tsconfig.app.json",
+        "assets": ["apps/driver/src/favicon.ico", "apps/driver/src/assets"],
+        "styles": ["apps/driver/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "apps/driver/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/driver/src/environments/environment.ts",
+              "with": "apps/driver/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/driver/webpack.config.prod.js"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "driver:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "driver:build:development"
+        },
+        "production": {
+          "buildTarget": "driver:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/driver/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/driver"],
+      "options": {
+        "jestConfig": "apps/driver/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "driver:build",
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "driver:build:development"
+        },
+        "production": {
+          "buildTarget": "driver:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}

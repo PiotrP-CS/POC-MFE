@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "driver": "apps/driver",
+    "driver-e2e": "apps/driver-e2e",
+    "host": "apps/host",
+    "host-e2e": "apps/host-e2e",
+    "shift": "apps/shift",
+    "shift-e2e": "apps/shift-e2e",
+    "vehicle": "apps/vehicle",
+    "vehicle-e2e": "apps/vehicle-e2e"
+  }
+}

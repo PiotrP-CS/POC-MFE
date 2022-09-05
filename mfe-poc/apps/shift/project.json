@@ -1,0 +1,98 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/shift/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/shift",
+        "index": "apps/shift/src/index.html",
+        "baseHref": "/",
+        "main": "apps/shift/src/main.ts",
+        "polyfills": "apps/shift/src/polyfills.ts",
+        "tsConfig": "apps/shift/tsconfig.app.json",
+        "assets": ["apps/shift/src/favicon.ico", "apps/shift/src/assets"],
+        "styles": ["apps/shift/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "apps/shift/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/shift/src/environments/environment.ts",
+              "with": "apps/shift/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/shift/webpack.config.prod.js"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "shift:build",
+        "hmr": true,
+        "port": 4203
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "shift:build:development"
+        },
+        "production": {
+          "buildTarget": "shift:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/shift/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/shift"],
+      "options": {
+        "jestConfig": "apps/shift/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "shift:build",
+        "port": 4203
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "shift:build:development"
+        },
+        "production": {
+          "buildTarget": "shift:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
