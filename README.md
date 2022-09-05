@@ -1,2 +1,3 @@
 # POC-MFE
-sss
+
+Early set up for MFE in monorepo
